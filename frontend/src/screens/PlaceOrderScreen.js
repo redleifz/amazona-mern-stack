@@ -37,12 +37,12 @@ export default function PlaceOrderScreen() {
   const { cart, userInfo } = state;
 
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
-  cart.itemPrice = round2(
+  cart.itemsPrice = round2(
     cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
   );
-  cart.shippingPrice = cart.itemPrice > 100 ? round2(0) : round2(0);
-  cart.taxPrice = round2(0.15 * cart.itemPrice);
-  cart.totalPrice = cart.itemPrice + cart.shippingPrice + cart.taxPrice;
+  cart.shippingPrice = cart.itemsPrice > 100 ? round2(0) : round2(0);
+  cart.taxPrice = round2(0.15 * cart.itemsPrice);
+  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
 
   const placeOrderHandler = async () => {
     try {
@@ -53,7 +53,7 @@ export default function PlaceOrderScreen() {
           orderItems: cart.cartItems,
           shippingAddress: cart.shippingAddress,
           paymentMethod: cart.paymentMethod,
-          itemPrice: cart.itemPrice,
+          itemsPrice: cart.itemsPrice,
           shippingPrice: cart.shippingPrice,
           taxPrice: cart.taxPrice,
           totalPrice: cart.totalPrice,
@@ -89,7 +89,7 @@ export default function PlaceOrderScreen() {
       <h1 className="my-3">Preview Order</h1>
       <Row>
         <Col md={8}>
-          <Card>
+          <Card className="mb-3">
             <Card.Body>
               <Card.Title>Shipping</Card.Title>
               <Card.Text>
@@ -110,24 +110,27 @@ export default function PlaceOrderScreen() {
               <Link to="/payment">Edit</Link>
             </Card.Body>
           </Card>
+
           <Card className="mb-3">
             <Card.Body>
               <Card.Title>Items</Card.Title>
               <ListGroup variant="flush">
                 {cart.cartItems.map((item) => (
                   <ListGroup.Item key={item._id}>
-                    <Col md={6}>
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="img-fluid rounded img-thumbnail"
-                      ></img>
-                      <Link to={`product/${item.slug}`}>{item.name}</Link>
-                    </Col>
-                    <Col md={3}>
-                      <span>{item.quantity}</span>
-                    </Col>
-                    <Col md={3}>${item.price}</Col>
+                    <Row className="align-items-center">
+                      <Col md={6}>
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="img-fluid rounded img-thumbnail"
+                        ></img>{" "}
+                        <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                      </Col>
+                      <Col md={3}>
+                        <span>{item.quantity}</span>
+                      </Col>
+                      <Col md={3}>${item.price}</Col>
+                    </Row>
                   </ListGroup.Item>
                 ))}
               </ListGroup>
@@ -144,13 +147,13 @@ export default function PlaceOrderScreen() {
                 <ListGroup.Item>
                   <Row>
                     <Col>Items</Col>
-                    <Col>${cart.itemPrice.toFixed(2)}</Col>
+                    <Col>${Number(cart.itemsPrice).toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
                     <Col>Shipping</Col>
-                    <Col>${cart.shippingPrice.toFixed(2)}</Col>
+                    <Col>${Number(cart.shippingPrice).toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -167,7 +170,6 @@ export default function PlaceOrderScreen() {
                     </Col>
                     <Col>
                       <strong>{cart.totalPrice.toFixed(2)}</strong>
-                      {/* <strong>${cart.totalPrice.toFixed(2)}</strong> */}
                     </Col>
                   </Row>
                 </ListGroup.Item>
@@ -181,7 +183,7 @@ export default function PlaceOrderScreen() {
                       Place Order
                     </Button>
                   </div>
-                  { loading  && <LoadingBox></LoadingBox>}
+                  {loading && <LoadingBox></LoadingBox>}
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>
