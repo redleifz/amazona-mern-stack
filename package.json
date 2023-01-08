@@ -1,0 +1,29 @@
+{
+  "name": "amazona",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "hi-base32": "^0.5.1",
+    "loose-envify": "^1.4.0",
+    "promise-polyfill": "^8.2.3",
+    "js-tokens": "^4.0.0",
+    "react-dom": "^18.2.0",
+    "scheduler": "^0.23.0",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redleifz/amozona-mern-stack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/redleifz/amozona-mern-stack/issues"
+  },
+  "homepage": "https://github.com/redleifz/amozona-mern-stack#readme"
+}
