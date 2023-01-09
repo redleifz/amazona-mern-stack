@@ -32,7 +32,7 @@ export default function ProfileScreen() {
   const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
     loadingUpdate: false,
   });
-
+  
   const submitHandler = async (e) => {
     e.preventDefault();
     try {

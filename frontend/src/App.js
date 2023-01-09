@@ -25,6 +25,9 @@ import getError from "./utils";
 import axios from "axios";
 import SearchScreen from "./screens/SearchScreen";
 import SearchBox from "./components/SearchBox";
+import ProtectRoute from "./screens/ProtectRoute";
+import DashboardScreen from "./screens/DashboardScreen";
+import AdminRoute from "./screens/AdminRoute";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -109,6 +112,23 @@ function App() {
                       Sign In{" "}
                     </Link>
                   )}
+
+                  {userInfo && userInfo.isAdmin && (
+                    <NavDropdown title="Admin" id="admin-nav-dropdown">
+                      <LinkContainer to="/admin/dashboard">
+                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/productlist">
+                        <NavDropdown.Item>Products</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/orderlist">
+                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/userlist">
+                        <NavDropdown.Item>Users</NavDropdown.Item>
+                      </LinkContainer>
+                    </NavDropdown>
+                  )}
                 </Nav>
               </Navbar.Collapse>
             </Container>
@@ -145,14 +165,44 @@ function App() {
               <Route path="/search" element={<SearchScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
-              <Route path="/profile" element={<ProfileScreen />} />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectRoute>
+                    {" "}
+                    <ProfileScreen />
+                  </ProtectRoute>
+                }
+              />
               <Route path="/shipping" element={<ShippingAddressScreen />} />
               <Route path="/payment" element={<PaymentMethodScreen />} />
+              {/* Admin Route */}
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <AdminRoute>
+                    <DashboardScreen />
+                  </AdminRoute>
+                }
+              ></Route>
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
-              <Route path="/order/:id" element={<OrderScreen />}></Route>
+              <Route
+                path="/order/:id"
+                element={
+                  <ProtectRoute>
+                    {" "}
+                    <OrderScreen />
+                  </ProtectRoute>
+                }
+              ></Route>
               <Route
                 path="/orderhistory"
-                element={<OrderHistoryScreen />}
+                element={
+                  <ProtectRoute>
+                    {" "}
+                    <OrderHistoryScreen />
+                  </ProtectRoute>
+                }
               ></Route>
               <Route path="/" element={<HomeScreen />} />
             </Routes>
