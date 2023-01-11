@@ -1,5 +1,6 @@
 {
   "name": "frontend",
+  "proxy": "https://amazona-backend.onrender.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
