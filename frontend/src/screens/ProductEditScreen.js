@@ -1,36 +1,45 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
 import axios from "axios";
 import { Store } from "../Store";
-import getError  from "../utils";
-import { useParams } from "react-router-dom";
+import getError from "../utils";
+import { useNavigate, useParams } from "react-router-dom";
 import MessageBox from "../components/MessageBox";
 import LoadingBox from "../components/LoadingBox";
 import { Button, Container, Form } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
+import { toast } from "react-toastify";
 
 const reducer = (state, action) => {
-    switch (action.type) {
-      case 'FETCH_REQUEST':
-        return { ...state, loading: true };
-      case 'FETCH_SUCCESS':
-        return { ...state, loading: false };
-      case 'FETCH_FAIL':
-        return { ...state, loading: false, error: action.payload };
-      default:
-        return state;
-    }
-  };
+  switch (action.type) {
+    case "FETCH_REQUEST":
+      return { ...state, loading: true };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false };
+    case "FETCH_FAIL":
+      return { ...state, loading: false, error: action.payload };
+    case "UPDATE_REQUEST":
+      return { ...state, loadingUpdate: true };
+    case "UPDATE_SUCCESS":
+      return { ...state, loadingUpdate: false };
+    case "UPDATE_FAIL":
+      return { ...state, loadingUpdate: false };
+
+    default:
+      return state;
+  }
+};
 
 export default function ProductEditScreen() {
-    const params = useParams(); // /product/:id
-    const { id: productId } = params;
-  
-    const { state } = useContext(Store);
-    const { userInfo } = state;
-    const [{ loading, error }, dispatch] = useReducer(reducer, {
-      loading: true,
-      error: '',
-    });
+  const navigate = useNavigate();
+  const params = useParams(); // /product/:id
+  const { id: productId } = params;
+
+  const { state } = useContext(Store);
+  const { userInfo } = state;
+  const [{ loading, error, loadingUpdate }, dispatch] = useReducer(reducer, {
+    loading: true,
+    error: "",
+  });
 
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
@@ -54,7 +63,7 @@ export default function ProductEditScreen() {
         setCountInSotck(data.countInStock);
         setBrand(data.brand);
         setDescription(data.description);
-        dispatch({type:"FETCH_SUCCESS"})
+        dispatch({ type: "FETCH_SUCCESS" });
       } catch (err) {
         dispatch({
           type: "FETCH_FAIL",
@@ -65,9 +74,41 @@ export default function ProductEditScreen() {
     fetchData();
   }, [productId]);
 
+  const sumbitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      dispatch({ type: "UPDATE_REQUEST" });
+      await axios.put(
+        `/api/products/${productId}`,
+        {
+          _id: productId,
+          name,
+          slug,
+          price,
+          image,
+          category,
+          brand,
+          countInStock,
+          description,
+        },
+        {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({
+        type: "UPDATE_SUCCESS",
+      });
+      toast.success("Product updated successfully");
+      navigate(`/admin/products`);
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: "UPDATE_FAIL" });
+    }
+  };
+
   return (
     <Container className="small-container">
-        
       <Helmet>
         <title>Edit Product ${productId}</title>
       </Helmet>
@@ -77,7 +118,7 @@ export default function ProductEditScreen() {
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <Form>
+        <Form onSubmit={sumbitHandler}>
           <Form.Group className="mb-3" controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -141,7 +182,10 @@ export default function ProductEditScreen() {
             />
           </Form.Group>
           <div className="mb-3">
-            <Button type="submit">Update</Button>
+            <Button disabled={loadingUpdate} type="submit">
+              Update
+            </Button>
+            {loadingUpdate ?? <LoadingBox></LoadingBox>}
           </div>
         </Form>
       )}
