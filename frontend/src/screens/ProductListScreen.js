@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useReducer } from "react";
 import axios from "axios";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link,  useLocation, useNavigate } from "react-router-dom";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { Store } from "../Store";
@@ -62,37 +62,45 @@ export default function ProductListScreen() {
   }, [page, userInfo]);
 
   const createHandler = async () => {
-    if (window.confirm("Are you sure to create?")) {
+    if (window.confirm('Are you sure to create?')) {
       try {
-        dispatch({ type: "CREATE_REQUEST" });
+        dispatch({ type: 'CREATE_REQUEST' });
         const { data } = await axios.post(
-          "/api/products",
+          '/api/products',
           {},
-          { headers: { Authorization: `Berrer ${userInfo.token}` } }
+          {
+            headers: { Authorization: `Bearer ${userInfo.token}` },
+          }
         );
-        toast.success("product created successfully");
-        dispatch({ type: "CREATE_SUCCESS" });
+        toast.success('product created successfully');
+        dispatch({ type: 'CREATE_SUCCESS' });
         navigate(`/admin/product/${data.product._id}`);
       } catch (err) {
         toast.error(getError(error));
-        dispatch({ type: "CREATE_FAIL" });
+        dispatch({
+          type: 'CREATE_FAIL',
+        });
       }
     }
   };
 
   return (
     <div>
+
+
       <Row>
         <Col>
-          <h1>Product</h1>
+          <h1>Products</h1>
         </Col>
-        <Col className="col text-end"></Col>
-        <div>
-          <Button type="button" onClick={createHandler}>
-            Add Product
-          </Button>
-        </div>
+        <Col className="col text-end">
+          <div>
+            <Button type="button" onClick={createHandler}>
+              Create Product
+            </Button>
+          </div>
+        </Col>
       </Row>
+
       {loadingCreate && <LoadingBox></LoadingBox>}
 
       {loading ? (
@@ -109,6 +117,7 @@ export default function ProductListScreen() {
                 <th>PRICE</th>
                 <th>CATEGORY</th>
                 <th>BRAND</th>
+                <th>ACTION</th>
               </tr>
             </thead>
             <tbody>
@@ -119,6 +128,15 @@ export default function ProductListScreen() {
                   <td>{product.price}</td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
+                  <td>
+                    <Button
+                      type="button"
+                      variant="light"
+                      onClick={() => navigate(`/admin/product/${product._id}`)}
+                    >
+                      Edit
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
