@@ -212,6 +212,15 @@ export default function ProductEditScreen() {
             />
           </Form.Group>
 
+          <Form.Group className="mb-3" controlId="countInStock">
+            <Form.Label>Count In Stock</Form.Label>
+            <Form.Control
+              value={countInStock}
+              onChange={(e) => setCountInSotck(e.target.value)}
+              required
+            />
+          </Form.Group>
+
           <Form.Group className="mb-3" controlId="description">
             <Form.Label>Description</Form.Label>
             <Form.Control
