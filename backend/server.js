@@ -13,7 +13,11 @@ dotenv.config();
 
 
 
-app.use(cors()) // Enable All CORS Requests
+const corsOptions = {
+  origin: 'https://amazona-frontend.onrender.com',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+app.use(cors(corsOptions))
 
 
 //fix for error message
