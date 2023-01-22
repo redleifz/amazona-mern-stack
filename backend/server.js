@@ -12,12 +12,18 @@ const app = express();
 dotenv.config();
 
 
-
 const corsOptions = {
-  origin: process.env.FRONTEND_URL,
+  origin: `${process.env.FRONTEND_URL}` ,
   optionsSuccessStatus: 200 
 }
 app.use(cors(corsOptions))
+
+// const FRONTEND_URL = process.env.FRONTEND_URL
+// const corsOptions = {
+//   origin: `${FRONTEND_URL}` ,
+//   optionsSuccessStatus: 200 
+// }
+// app.use(cors(corsOptions))
 
 
 //fix for error message
