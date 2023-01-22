@@ -11,9 +11,12 @@ import cors from "cors"
 const app = express();
 dotenv.config();
 
+const FRONTEND_URL = process.env.FRONTEND_URL
+
+console.log(`you allow origin : ${FRONTEND_URL}`)
 
 const corsOptions = {
-  origin: `${process.env.FRONTEND_URL}` ,
+  origin: `${FRONTEND_URL}` ,
   optionsSuccessStatus: 200 
 }
 app.use(cors(corsOptions))
