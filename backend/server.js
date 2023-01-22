@@ -15,8 +15,12 @@ const FRONTEND_URL = process.env.FRONTEND_URL
 
 console.log(`you allow origin : ${FRONTEND_URL}`)
 
+
+
+
 const corsOptions = {
-  origin: `${FRONTEND_URL}` ,
+  origin: `https://amazona-frontend.onrender.com` ,
+  // origin: `${FRONTEND_URL}` ,
   optionsSuccessStatus: 200 
 }
 app.use(cors(corsOptions))
