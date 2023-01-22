@@ -6,6 +6,7 @@ import MessageBox from "../components/MessageBox";
 import { Store } from "../Store";
 import getError from "../utils";
 import Chart from "react-google-charts";
+import { URL } from "../App";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -31,7 +32,7 @@ export default function DashboardScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get("/api/orders/summary", {
+        const { data } = await axios.get(`${URL}/api/orders/summary`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: "FETCH_SUCCESS", payload: data });

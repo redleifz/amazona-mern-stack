@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import getError from "../utils";
 import Axios from "axios";
 import LoadingBox from "../components/LoadingBox";
+import { URL } from "../App";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -48,7 +49,7 @@ export default function PlaceOrderScreen() {
     try {
       dispatch({ type: "CREATE_REQUEST" });
       const { data } = await Axios.post(
-        "/api/orders",
+        `${URL}/api/orders`,
         {
           orderItems: cart.cartItems,
           shippingAddress: cart.shippingAddress,

@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import { Store } from "../Store";
 import MessageBox from "../components/MessageBox";
+import { URL } from "../App";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -51,7 +52,7 @@ export default function UserEditScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: "FETCH_REQUEST" });
-        const { data } = await axios.get(`/api/users/${userId}`, {
+        const { data } = await axios.get(`${URL}/api/users/${userId}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         setName(data.name);
@@ -73,7 +74,7 @@ export default function UserEditScreen() {
     try {
       dispatch({ type: "UPDATE_REQUEST" });
       await axios.put(
-        `/api/users/${userId}`,
+        `${URL}/api/users/${userId}`,
         {
           _id: userId,
           name,

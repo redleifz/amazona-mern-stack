@@ -7,6 +7,7 @@ import { Store } from "../Store";
 import { Button, Col, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import getError from "../utils";
+import { URL } from "../App";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -72,7 +73,7 @@ export default function ProductListScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`/api/products/admin?page=${page}`, {
+        const { data } = await axios.get(`${URL}/api/products/admin?page=${page}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: "FETCH_SUCCESS", payload: data });
@@ -91,7 +92,7 @@ export default function ProductListScreen() {
       try {
         dispatch({ type: "CREATE_REQUEST" });
         const { data } = await axios.post(
-          "/api/products",
+          `${URL}/api/products`,
           {},
           {
             headers: { Authorization: `Bearer ${userInfo.token}` },
@@ -112,7 +113,7 @@ export default function ProductListScreen() {
   const deleteHandler = async (product) => {
     if (window.confirm("Are you sure to delete?")) {
       try {
-        await axios.delete(`/api/products/${product._id}`, {
+        await axios.delete(`${URL}/api/products/${product._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         toast.success("product deleted successfully");

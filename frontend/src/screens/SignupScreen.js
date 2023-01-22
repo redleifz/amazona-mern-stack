@@ -10,6 +10,7 @@ import Axios from "axios";
 import { Store } from "../Store";
 import { toast } from "react-toastify";
 import getError from "../utils";
+import { URL } from "../App";
 
 const SignupScreen = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ if(password !== confirmPassword){
   return;
 }
     try {
-      const { data } = await Axios.post("/api/users/signup", {
+      const { data } = await Axios.post(`${URL}/api/users/signup`, {
         name,
         email,
         password,

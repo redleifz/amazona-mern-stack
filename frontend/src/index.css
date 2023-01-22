@@ -77,3 +77,7 @@ main {
 .text-bold {
   font-weight: bold;
 }
+
+.img-size {
+  height: 350px;
+}

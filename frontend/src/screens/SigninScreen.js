@@ -10,6 +10,7 @@ import Axios from "axios";
 import { Store } from "../Store";
 import { toast } from "react-toastify";
 import getError from "../utils";
+import { URL } from "../App";
 
 const SigninScreen = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const SigninScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await Axios.post("/api/users/signin", {
+      const { data } = await Axios.post(`${URL}/api/users/signin`, {
         email,
         password,
       });

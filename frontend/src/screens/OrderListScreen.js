@@ -8,6 +8,7 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { Store } from "../Store";
 import getError from "../utils";
+import { URL } from "../App";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -51,7 +52,7 @@ export default function OrderListScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: "FETCH_REQUEST" });
-        const { data } = await axios.get(`/api/orders`, {
+        const { data } = await axios.get(`${URL}/api/orders`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: "FETCH_SUCCESS", payload: data });

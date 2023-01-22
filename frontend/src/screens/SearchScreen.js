@@ -11,6 +11,7 @@ import MessageBox from "../components/MessageBox";
 import { Button, Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
 import LinkContainer from "react-router-bootstrap/LinkContainer";
+import { URL } from "../App";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -87,7 +88,7 @@ export default function SearchScreen() {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `/api/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`
+          `${URL}/api/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`
         );
         dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (err) {
@@ -100,7 +101,7 @@ export default function SearchScreen() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axios.get(`/api/products/categories`);
+        const { data } = await axios.get(`${URL}/api/products/categories`);
         setCategories(data);
       } catch (err) {
         toast.error(getError(err));

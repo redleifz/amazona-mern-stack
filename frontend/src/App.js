@@ -34,7 +34,9 @@ import OrderListScreen from "./screens/OrderListScreen";
 import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
 
-export const URL = process.env.REACT_APP_BACKEND_URL
+
+// console.log(process.env.REACT_APP_BACKEND_URL)
+export const URL = `${process.env.REACT_APP_BACKEND_URL}`
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -263,7 +265,7 @@ function App() {
         </main>
         <footer>
           <div className="text-center my-3">
-            Jongjate.com @ All right reserved
+           <a href="http://www.jongjate.com">Jongjate.com</a>  @ All right reserved
           </div>
         </footer>
       </div>
