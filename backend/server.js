@@ -6,15 +6,21 @@ import productRouter from "./routes/productRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
 import uploadRouter from "./routes/uploadRoutes.js";
-import cors from "cors";
+
 
 const app = express();
 dotenv.config();
 
-app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS.split(',')
-}));
+// console.log(process.env.ALLOWED_URL)
 
+app.use(function(req, res, next) {
+  var origin = req.headers.origin;
+  if(origin === process.env.ALLOWED_URL){
+      res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 //fix for error message
 mongoose.set("strictQuery", false);
