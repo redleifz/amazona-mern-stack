@@ -11,10 +11,9 @@ import cors from "cors"
 const app = express();
 dotenv.config();
 
-// console.log(process.env.ALLOWED_URL)
 
 
-app.use(cors({origin: process.env.ALLOWED_ORIGIN}));
+app.use(cors()) // Enable All CORS Requests
 
 
 //fix for error message
