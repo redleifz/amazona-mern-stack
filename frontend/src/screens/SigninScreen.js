@@ -15,7 +15,6 @@ import { URL } from "../App";
 const SigninScreen = () => {
   const navigate = useNavigate();
 
-
   const { search } = useLocation();
   const redirectInUrl = new URLSearchParams(search).get("redirect");
   const redirect = redirectInUrl ? redirectInUrl : "/";
