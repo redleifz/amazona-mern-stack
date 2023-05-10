@@ -103,7 +103,7 @@ userRouter.post(
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      tokten: generateToken(user),
+      token: generateToken(user),
     });
   })
 );
